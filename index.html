@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOVIO — Preview</title>
+<title>NOVIO — Mint Live</title>
 <style>
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#FFF6E3;color:#2B2118}
   .wrap{max-width:720px;margin:0 auto;padding:0 16px 48px}
-  .banner{background:#2B2118;color:#FFE9A8;text-align:center;font-size:13px;font-weight:700;padding:10px 12px}
+  .banner{background:#1E7B34;color:#fff;text-align:center;font-size:14px;font-weight:800;padding:11px 12px}
   .lang{text-align:right;padding:12px 0 0}
   .lang button{border:1.5px solid #2B2118;background:#fff;color:#2B2118;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer;margin-left:6px}
   .lang button.on{background:#2B2118;color:#FFE9A8}
@@ -18,6 +18,9 @@
   .card{background:#fff;border:2px solid #2B2118;border-radius:18px;padding:18px;margin:16px 0}
   .card h2{margin:0 0 10px;font-size:19px}
   .card p,.card li{font-size:14.5px;line-height:1.6;color:#4A3728}
+  .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center}
+  .stat b{display:block;font-size:22px;color:#D74830}
+  .stat span{font-size:12px;color:#7A5C3E}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .tile{border:2px solid #2B2118;border-radius:16px;padding:10px;text-align:center}
   .tile img{width:100%;border-radius:10px;display:block}
@@ -29,21 +32,25 @@
   table{width:100%;border-collapse:collapse;font-size:14.5px}
   td{padding:7px 4px;border-bottom:1px solid #F0DCC0;color:#4A3728}
   td:first-child{font-weight:700;color:#2B2118;white-space:nowrap}
-  .mintbtn{display:block;width:100%;background:#2B2118;color:#FFE9A8;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:800;cursor:not-allowed;opacity:.85}
+  .qty{display:flex;align-items:center;justify-content:center;gap:16px;margin:12px 0}
+  .qty button{width:44px;height:44px;border-radius:50%;border:2px solid #2B2118;background:#FFC93C;font-size:22px;font-weight:800;cursor:pointer}
+  .qty b{font-size:24px;min-width:36px;text-align:center}
+  .total{text-align:center;font-size:18px;font-weight:800;margin:6px 0 12px}
+  .mintbtn{display:block;width:100%;background:#2B2118;color:#FFE9A8;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:800;cursor:pointer}
   .note{font-size:12.5px;color:#7A5C3E;text-align:center;margin-top:10px;line-height:1.5}
   .prompt{background:#FFF6E3;border:1.5px dashed #C9A86A;border-radius:12px;padding:12px;font-size:13px;line-height:1.6;white-space:pre-wrap;color:#4A3728}
   .copybtn{background:#FFC93C;border:2px solid #2B2118;border-radius:12px;padding:10px 18px;font-weight:800;cursor:pointer;font-size:14px}
   .foot{text-align:center;font-size:12.5px;color:#7A5C3E;line-height:1.6}
+  a{color:#1E5FA8}
   [data-ja]{display:none}
   body.ja [data-en]{display:none}
   body.ja [data-ja]{display:block}
   body.ja td[data-ja]{display:table-cell}
-  body.ja [data-ja].inline{display:inline}
 </style>
 </head>
 <body>
-<div class="banner" data-en>PREVIEW — Mint is not open yet. Supply 8,888 · 111 FREE · then 0.00005 BNB.</div>
-<div class="banner" data-ja>プレビュー — ミントはまだ開始していません。供給量 8,888 · 111体無料 · その後 0.00005 BNB。</div>
+<div class="banner" data-en>🟢 MINT IS LIVE — Mint opened 19:14 UTC</div>
+<div class="banner" data-ja>🟢 ミント開始 — 開始時刻 19:14 UTC</div>
 <div class="wrap">
   <div class="lang">
     <button id="btn-en" class="on" onclick="setLang('en')">English</button>
@@ -53,8 +60,34 @@
   <img class="hero" src="assets/hero.jpg" alt="NOVIO characters">
 
   <h1>NOVIO</h1>
-  <p class="sub" data-en>9 characters · BNB Chain · BEP-721 (planned)</p>
-  <p class="sub" data-ja>9キャラクター · BNBチェーン · BEP-721（予定）</p>
+  <p class="sub" data-en>9 characters · BNB Chain · BEP-721</p>
+  <p class="sub" data-ja>9キャラクター · BNBチェーン · BEP-721</p>
+
+  <div class="card">
+    <h2 data-en>Live stats</h2>
+    <h2 data-ja>ライブ統計</h2>
+    <div class="stats">
+      <div class="stat"><b><span id="liveMinted">…</span> / 8,888</b><span data-en>Minted</span><span data-ja>ミント済み</span></div>
+      <div class="stat"><b id="livePrice">…</b><span data-en>Price per NFT</span><span data-ja>1体あたりの価格</span></div>
+      <div class="stat"><b id="livePhase">…</b><span data-en>Phase</span><span data-ja>フェーズ</span></div>
+    </div>
+    <p class="note" data-en>Stats refresh every 30 seconds from the BNB Chain contract.</p>
+    <p class="note" data-ja>統計はBNBチェーンのコントラクトから30秒ごとに更新されます。</p>
+  </div>
+
+  <div class="card">
+    <h2 data-en>Mint</h2>
+    <h2 data-ja>ミント</h2>
+    <div class="qty">
+      <button onclick="chQty(-1)">−</button><b id="qtyNum">1</b><button onclick="chQty(1)">+</button>
+    </div>
+    <div class="total" id="totalTxt">…</div>
+    <button class="mintbtn" onclick="doMint()" data-en>Connect Wallet &amp; Mint</button>
+    <button class="mintbtn" onclick="doMint()" data-ja>ウォレット接続してミント</button>
+    <p class="note" id="mintmsg" style="display:none"></p>
+    <p class="note" data-en>Max 11 per wallet (cumulative). Minting in order: tokens 1–111 are FREE (gas only), then 0.00005 BNB each.</p>
+    <p class="note" data-ja>1ウォレット上限11体（累計）。順次ミント：トークン1–111は無料（ガスのみ）、その後1体0.00005 BNB。</p>
+  </div>
 
   <div class="card">
     <h2 data-en>Meet NOVIO</h2>
@@ -81,31 +114,23 @@
       <tr><td data-en>Supply</td><td data-ja>供給量</td><td>8,888</td></tr>
       <tr><td data-en>FREE mint</td><td data-ja>無料ミント</td><td data-en>Tokens 1–111, gas only</td><td data-ja>トークン 1–111：ガスのみ</td></tr>
       <tr><td data-en>Paid mint</td><td data-ja>有料ミント</td><td data-en>Tokens 112–8,888 at 0.00005 BNB (≈ Rp650*)</td><td data-ja>トークン 112–8,888：0.00005 BNB（約 Rp650*）</td></tr>
-      <tr><td data-en>Max per wallet</td><td data-ja>1ウォレット上限</td><td data-en>11</td><td data-ja>11</td></tr>
+      <tr><td data-en>Max per wallet</td><td data-ja>1ウォレット上限</td><td>11</td></tr>
       <tr><td data-en>Sellout total</td><td data-ja>完売時合計</td><td>0.43885 BNB</td></tr>
       <tr><td data-en>Chain</td><td data-ja>チェーン</td><td>BNB Chain Mainnet (56)</td></tr>
-      <tr><td data-en>Contract</td><td data-ja>コントラクト</td><td data-en>Not deployed yet</td><td data-ja>まだデプロイされていません</td></tr>
+      <tr><td data-en>Contract</td><td data-ja>コントラクト</td><td><span id="contractShort">0xFb0d…CAcC</span> <button class="copybtn" style="padding:4px 10px;font-size:12px" onclick="copyContract()">Copy</button> <a href="https://bscscan.com/address/0xFb0d7D357384f87a967d36E59E961D9E4899CAcC" target="_blank" rel="noopener">BscScan</a></td></tr>
+      <tr><td data-en>Deploy tx</td><td data-ja>デプロイ取引</td><td><a href="https://bscscan.com/tx/0xb8f38794e499e7ad55d4ae41d5c4a20776f9131bc7464eee72b324c29330072c" target="_blank" rel="noopener">BscScan</a></td></tr>
     </table>
-    <p class="note" data-en>Sequential mint, like the previous projects: token IDs are minted in order, so the 111 FREE tokens are all Wink.</p>
-    <p class="note" data-ja>これまでのプロジェクトと同じ順次ミントです。無料の111体はすべてWinkになります。</p>
-  </div>
-
-  <div class="card">
-    <h2 data-en>Mint</h2>
-    <h2 data-ja>ミント</h2>
-    <button class="mintbtn" disabled data-en>Mint is disabled in this preview</button>
-    <button class="mintbtn" disabled data-ja>このプレビューではミントは無効です</button>
-    <p class="note" data-en>Connect Wallet &amp; Mint will be enabled here once the contract is deployed and the owner confirms the mint is open.</p>
-    <p class="note" data-ja>コントラクトのデプロイとミント開始の確認後、ここでウォレット接続とミントが有効になります。</p>
+    <p class="note" data-en>Sequential mint: token IDs are minted in order, so the 111 FREE tokens are all Wink. *Rupiah figure is an estimate at the reference rate.</p>
+    <p class="note" data-ja>順次ミント：トークンIDは順番にミントされるため、無料の111体はすべてWinkになります。*ルピア換算は参考レートによる推定です。</p>
   </div>
 
   <div class="card">
     <h2 data-en>Agent Mint (copy-paste prompt)</h2>
     <h2 data-ja>エージェントミント（コピペ用プロンプト）</h2>
-    <p data-en>For minting with an AI agent once the contract is live. The contract address is still TBD — the agent must stop if it is still TBD.</p>
-    <p data-ja>コントラクト公開後にAIエージェントでミントするためのプロンプトです。アドレスはまだ未定（TBD）です。未定のままならエージェントは停止しなければなりません。</p>
+    <p data-en>For minting with an AI agent. The agent must check the live contract state first and only mint after your confirmation.</p>
+    <p data-ja>AIエージェントでミントするためのプロンプトです。エージェントはまずコントラクトの状態を確認し、あなたの確認後にのみミントします。</p>
     <div class="prompt" id="agentPrompt">You are minting a NOVIO NFT on BNB Chain Mainnet (chain ID 56) for me.
-Contract address: TBD — if the address is still TBD, STOP and tell me the contract is not deployed yet. Do not guess an address.
+Contract address: 0xFb0d7D357384f87a967d36E59E961D9E4899CAcC
 1. First call mintOpen(), totalMinted(), currentPrice(), and mintedPerWallet(MY_WALLET) and report the exact phase, price, and how many I already minted.
 2. STOP if mint is closed or my wallet already reached the max of 11.
 3. Only after my confirmation, call mint(QUANTITY) and send exactly currentPrice x QUANTITY in BNB. No token approvals.
@@ -113,11 +138,14 @@ Contract address: TBD — if the address is still TBD, STOP and tell me the cont
     <p style="text-align:center;margin:12px 0 0"><button class="copybtn" onclick="copyPrompt()" data-en>Copy Prompt</button><button class="copybtn" onclick="copyPrompt()" data-ja>プロンプトをコピー</button></p>
   </div>
 
-  <p class="foot">NOVIO — preview page. Contract: TBD · Mint: not open<br>
+  <p class="foot">NOVIO — mint live. Contract: 0xFb0d7D357384f87a967d36E59E961D9E4899CAcC<br>
   <span data-en>BNB Chain · BEP-721 · Sequential IDs · No financial return promised</span>
   <span data-ja>BNBチェーン · BEP-721 · 順次ID · 金銭的リターンの約束はありません</span></p>
 </div>
 <script>
+var CONTRACT="0xFb0d7D357384f87a967d36E59E961D9E4899CAcC";
+var RPCS=["https://bsc-dataseed1.defibit.io/","https://bsc-dataseed.binance.org/","https://bsc-dataseed1.ninicoin.io/"];
+var qty=1,liveMinted=0,livePrice=0,myMinted=0;
 function setLang(l){
   document.body.classList.toggle('ja', l==='ja');
   document.getElementById('btn-en').classList.toggle('on', l==='en');
@@ -127,6 +155,46 @@ function copyPrompt(){
   var t=document.getElementById('agentPrompt').innerText;
   if(navigator.clipboard){navigator.clipboard.writeText(t);}
 }
+function copyContract(){
+  var t="0xFb0d7D357384f87a967d36E59E961D9E4899CAcC";
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){alert('Contract copied!');});}
+  else{var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Contract copied!');}
+}
+async function rpcCall(data){for(var u of RPCS){try{var r=await fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_call",params:[{to:CONTRACT,data},"latest"]})});var j=await r.json();if(j.result)return j.result;}catch(e){}}return null;}
+function updTotal(){
+  document.getElementById("qtyNum").innerText=qty;
+  var el=document.getElementById("totalTxt");
+  if(livePrice===0){el.innerText="Free — gas only";}
+  else{el.innerText="Total: "+(livePrice*qty).toFixed(5)+" BNB";}
+}
+function chQty(d){
+  var maxQ=Math.max(1,11-myMinted);
+  qty=Math.min(maxQ,Math.max(1,qty+d));
+  updTotal();
+}
+async function readLive(){try{
+  var tm=await rpcCall("0xa2309ff8");if(tm!==null){liveMinted=parseInt(tm,16);document.getElementById("liveMinted").innerText=liveMinted.toLocaleString();}
+  var pr=await rpcCall("0x9d1b464a");if(pr!==null){livePrice=parseInt(pr,16)/1e18;document.getElementById("livePrice").innerText=livePrice===0?"FREE":livePrice+" BNB";}
+  document.getElementById("livePhase").innerText=liveMinted<111?"FREE":"PAID";
+  updTotal();
+  if(window.ethereum){try{var a=await window.ethereum.request({method:"eth_accounts"});if(a.length){var mp=await rpcCall("0x3a602b4d"+a[0].slice(2).padStart(64,"0"));if(mp!==null)myMinted=parseInt(mp,16);}}catch(e){}}
+}catch(e){}}
+async function doMint(){var msg=document.getElementById("mintmsg");msg.style.display="block";
+try{
+  if(!window.ethereum){msg.innerText="No wallet found. Open this page in a wallet browser (e.g. Binance Wallet).";return;}
+  var chain=await window.ethereum.request({method:"eth_chainId"});
+  if(chain!=="0x38"){try{await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x38"}]});}catch(e){if(e.code===4902){await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x38",chainName:"BNB Smart Chain",nativeCurrency:{name:"BNB",symbol:"BNB",decimals:18},rpcUrls:["https://bsc-dataseed.binance.org/"],blockExplorerUrls:["https://bscscan.com"]}]});}else throw e;}}
+  var accts=await window.ethereum.request({method:"eth_requestAccounts"});
+  await readLive();var maxQ=Math.max(1,11-myMinted);if(qty>maxQ){qty=maxQ;updTotal();}
+  var price=await rpcCall("0x9d1b464a");var pWei=price?BigInt(price):BigInt(Math.round(livePrice*1e18));
+  var totalWei=pWei*BigInt(qty);
+  var data="0xa0712d68"+qty.toString(16).padStart(64,"0");
+  msg.innerText="Waiting for wallet confirmation...";
+  var tx=await window.ethereum.request({method:"eth_sendTransaction",params:[{from:accts[0],to:CONTRACT,value:"0x"+totalWei.toString(16),data}]}));
+  msg.innerHTML='Mint sent! <a href="https://bscscan.com/tx/'+tx+'" target="_blank" rel="noopener">View on BscScan</a>';
+  setTimeout(readLive,15000);
+}catch(e){msg.innerText="Mint failed: "+(e.message||e);}}
+readLive();setInterval(readLive,30000);
 </script>
 </body>
 </html>
