@@ -73,6 +73,7 @@
     </div>
     <p class="note" data-en>Stats refresh every 30 seconds from the BNB Chain contract.</p>
     <p class="note" data-ja>統計はBNBチェーンのコントラクトから30秒ごとに更新されます。</p>
+    <p class="note" id="statNote" style="display:none;color:#B3261E">Live stats unavailable — check your connection, retrying automatically.</p>
   </div>
 
   <div class="card">
@@ -145,7 +146,7 @@ Contract address: 0xFb0d7D357384f87a967d36E59E961D9E4899CAcC
 <script>
 var CONTRACT="0xFb0d7D357384f87a967d36E59E961D9E4899CAcC";
 var RPCS=["https://bsc-dataseed1.defibit.io/","https://bsc-dataseed.binance.org/","https://bsc-dataseed1.ninicoin.io/"];
-var qty=1,liveMinted=0,livePrice=0,myMinted=0;
+var qty=1,liveMinted=0,livePrice=0,myMinted=0,priceLoaded=false;
 function setLang(l){
   document.body.classList.toggle('ja', l==='ja');
   document.getElementById('btn-en').classList.toggle('on', l==='en');
@@ -160,11 +161,12 @@ function copyContract(){
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){alert('Contract copied!');});}
   else{var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('Contract copied!');}
 }
-async function rpcCall(data){for(var u of RPCS){try{var r=await fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_call",params:[{to:CONTRACT,data},"latest"]})});var j=await r.json();if(j.result)return j.result;}catch(e){}}return null;}
+async function rpcCall(data){for(var u of RPCS){try{var c=new AbortController();var t=setTimeout(function(){c.abort();},10000);var r=await fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_call",params:[{to:CONTRACT,data},"latest"]}),signal:c.signal});clearTimeout(t);var j=await r.json();if(j.result)return j.result;}catch(e){}}return null;}
 function updTotal(){
   document.getElementById("qtyNum").innerText=qty;
   var el=document.getElementById("totalTxt");
-  if(livePrice===0){el.innerText="Free — gas only";}
+  if(!priceLoaded){el.innerText="…";}
+  else if(livePrice===0){el.innerText="Free — gas only";}
   else{el.innerText="Total: "+(livePrice*qty).toFixed(5)+" BNB";}
 }
 function chQty(d){
@@ -173,9 +175,12 @@ function chQty(d){
   updTotal();
 }
 async function readLive(){try{
-  var tm=await rpcCall("0xa2309ff8");if(tm!==null){liveMinted=parseInt(tm,16);document.getElementById("liveMinted").innerText=liveMinted.toLocaleString();}
-  var pr=await rpcCall("0x9d1b464a");if(pr!==null){livePrice=parseInt(pr,16)/1e18;document.getElementById("livePrice").innerText=livePrice===0?"FREE":livePrice+" BNB";}
-  document.getElementById("livePhase").innerText=liveMinted<111?"FREE":"PAID";
+  var tm=await rpcCall("0xa2309ff8");
+  var pr=await rpcCall("0x9d1b464a");
+  var ok=false;
+  if(tm!==null){liveMinted=parseInt(tm,16);document.getElementById("liveMinted").innerText=liveMinted.toLocaleString();document.getElementById("livePhase").innerText=liveMinted<111?"FREE":"PAID";ok=true;}
+  if(pr!==null){livePrice=parseInt(pr,16)/1e18;priceLoaded=true;document.getElementById("livePrice").innerText=livePrice===0?"FREE":livePrice+" BNB";ok=true;}
+  document.getElementById("statNote").style.display=ok?"none":"block";
   updTotal();
   if(window.ethereum){try{var a=await window.ethereum.request({method:"eth_accounts"});if(a.length){var mp=await rpcCall("0x3a602b4d"+a[0].slice(2).padStart(64,"0"));if(mp!==null)myMinted=parseInt(mp,16);}}catch(e){}}
 }catch(e){}}
@@ -186,11 +191,11 @@ try{
   if(chain!=="0x38"){try{await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:"0x38"}]});}catch(e){if(e.code===4902){await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x38",chainName:"BNB Smart Chain",nativeCurrency:{name:"BNB",symbol:"BNB",decimals:18},rpcUrls:["https://bsc-dataseed.binance.org/"],blockExplorerUrls:["https://bscscan.com"]}]});}else throw e;}}
   var accts=await window.ethereum.request({method:"eth_requestAccounts"});
   await readLive();var maxQ=Math.max(1,11-myMinted);if(qty>maxQ){qty=maxQ;updTotal();}
-  var price=await rpcCall("0x9d1b464a");var pWei=price?BigInt(price):BigInt(Math.round(livePrice*1e18));
+  var price=await rpcCall("0x9d1b464a");if(price===null&&!priceLoaded){msg.innerText="Could not read the current price. Check your connection and try again.";return;}var pWei=price?BigInt(price):BigInt(Math.round(livePrice*1e18));
   var totalWei=pWei*BigInt(qty);
   var data="0xa0712d68"+qty.toString(16).padStart(64,"0");
   msg.innerText="Waiting for wallet confirmation...";
-  var tx=await window.ethereum.request({method:"eth_sendTransaction",params:[{from:accts[0],to:CONTRACT,value:"0x"+totalWei.toString(16),data}]}));
+  var tx=await window.ethereum.request({method:"eth_sendTransaction",params:[{from:accts[0],to:CONTRACT,value:"0x"+totalWei.toString(16),data}]});
   msg.innerHTML='Mint sent! <a href="https://bscscan.com/tx/'+tx+'" target="_blank" rel="noopener">View on BscScan</a>';
   setTimeout(readLive,15000);
 }catch(e){msg.innerText="Mint failed: "+(e.message||e);}}
