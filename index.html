@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVIO — Preview</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#FFF6E3;color:#2B2118}
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px 48px}
+  .banner{background:#2B2118;color:#FFE9A8;text-align:center;font-size:13px;font-weight:700;padding:10px 12px}
+  .lang{text-align:right;padding:12px 0 0}
+  .lang button{border:1.5px solid #2B2118;background:#fff;color:#2B2118;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer;margin-left:6px}
+  .lang button.on{background:#2B2118;color:#FFE9A8}
+  .hero{width:100%;border-radius:20px;margin:16px 0 8px;border:2px solid #2B2118}
+  h1{text-align:center;font-size:44px;letter-spacing:4px;margin:8px 0 0}
+  .sub{text-align:center;color:#7A5C3E;font-size:15px;margin:2px 0 20px}
+  .card{background:#fff;border:2px solid #2B2118;border-radius:18px;padding:18px;margin:16px 0}
+  .card h2{margin:0 0 10px;font-size:19px}
+  .card p,.card li{font-size:14.5px;line-height:1.6;color:#4A3728}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .tile{border:2px solid #2B2118;border-radius:16px;padding:10px;text-align:center}
+  .tile img{width:100%;border-radius:10px;display:block}
+  .tile b{display:block;margin-top:8px;font-size:15px}
+  .tile span{font-size:12.5px;color:#7A5C3E}
+  .t-wink{background:#FFE3E3}.t-dance{background:#DCEEFF}.t-heart{background:#FFD9E8}
+  .t-cheer{background:#FFF3C4}.t-cool{background:#E3E0FF}.t-peek{background:#D8F3DC}
+  .t-chill{background:#FFE8D1}.t-love{background:#FFD6E0}.t-run{background:#DFF3FF}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  td{padding:7px 4px;border-bottom:1px solid #F0DCC0;color:#4A3728}
+  td:first-child{font-weight:700;color:#2B2118;white-space:nowrap}
+  .mintbtn{display:block;width:100%;background:#2B2118;color:#FFE9A8;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:800;cursor:not-allowed;opacity:.85}
+  .note{font-size:12.5px;color:#7A5C3E;text-align:center;margin-top:10px;line-height:1.5}
+  .prompt{background:#FFF6E3;border:1.5px dashed #C9A86A;border-radius:12px;padding:12px;font-size:13px;line-height:1.6;white-space:pre-wrap;color:#4A3728}
+  .copybtn{background:#FFC93C;border:2px solid #2B2118;border-radius:12px;padding:10px 18px;font-weight:800;cursor:pointer;font-size:14px}
+  .foot{text-align:center;font-size:12.5px;color:#7A5C3E;line-height:1.6}
+  [data-ja]{display:none}
+  body.ja [data-en]{display:none}
+  body.ja [data-ja]{display:block}
+  body.ja td[data-ja]{display:table-cell}
+  body.ja [data-ja].inline{display:inline}
+</style>
+</head>
+<body>
+<div class="banner" data-en>PREVIEW — Mint is not open yet. Supply 8,888 · 111 FREE · then 0.00005 BNB.</div>
+<div class="banner" data-ja>プレビュー — ミントはまだ開始していません。供給量 8,888 · 111体無料 · その後 0.00005 BNB。</div>
+<div class="wrap">
+  <div class="lang">
+    <button id="btn-en" class="on" onclick="setLang('en')">English</button>
+    <button id="btn-ja" onclick="setLang('ja')">日本語</button>
+  </div>
+
+  <img class="hero" src="assets/hero.jpg" alt="NOVIO characters">
+
+  <h1>NOVIO</h1>
+  <p class="sub" data-en>9 characters · BNB Chain · BEP-721 (planned)</p>
+  <p class="sub" data-ja>9キャラクター · BNBチェーン · BEP-721（予定）</p>
+
+  <div class="card">
+    <h2 data-en>Meet NOVIO</h2>
+    <h2 data-ja>NOVIOに会おう</h2>
+    <p data-en>One little music note, nine big feelings. Every NOVIO below is one character of the collection — same note, different mood.</p>
+    <p data-ja>小さな音符に、9つの大きな気持ち。以下の各キャラクターがコレクションの1体です。同じ音符、違うムード。</p>
+    <div class="grid">
+      <div class="tile t-wink"><img src="assets/wink.jpg" alt="Wink"><b>Wink</b><span data-en>Tokens 1–988</span><span data-ja>トークン 1–988</span></div>
+      <div class="tile t-dance"><img src="assets/dance.jpg" alt="Dance"><b>Dance</b><span data-en>Tokens 989–1976</span><span data-ja>トークン 989–1976</span></div>
+      <div class="tile t-heart"><img src="assets/heart.jpg" alt="Heart"><b>Heart</b><span data-en>Tokens 1977–2964</span><span data-ja>トークン 1977–2964</span></div>
+      <div class="tile t-cheer"><img src="assets/cheer.jpg" alt="Cheer"><b>Cheer</b><span data-en>Tokens 2965–3952</span><span data-ja>トークン 2965–3952</span></div>
+      <div class="tile t-cool"><img src="assets/cool.jpg" alt="Cool"><b>Cool</b><span data-en>Tokens 3953–4940</span><span data-ja>トークン 3953–4940</span></div>
+      <div class="tile t-peek"><img src="assets/peek.jpg" alt="Peek"><b>Peek</b><span data-en>Tokens 4941–5927</span><span data-ja>トークン 4941–5927</span></div>
+      <div class="tile t-chill"><img src="assets/chill.jpg" alt="Chill"><b>Chill</b><span data-en>Tokens 5928–6914</span><span data-ja>トークン 5928–6914</span></div>
+      <div class="tile t-love"><img src="assets/love.jpg" alt="Love"><b>Love</b><span data-en>Tokens 6915–7901</span><span data-ja>トークン 6915–7901</span></div>
+      <div class="tile t-run"><img src="assets/run.jpg" alt="Run"><b>Run</b><span data-en>Tokens 7902–8888</span><span data-ja>トークン 7902–8888</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 data-en>Specification</h2>
+    <h2 data-ja>仕様</h2>
+    <table>
+      <tr><td data-en>Supply</td><td data-ja>供給量</td><td>8,888</td></tr>
+      <tr><td data-en>FREE mint</td><td data-ja>無料ミント</td><td data-en>Tokens 1–111, gas only</td><td data-ja>トークン 1–111：ガスのみ</td></tr>
+      <tr><td data-en>Paid mint</td><td data-ja>有料ミント</td><td data-en>Tokens 112–8,888 at 0.00005 BNB (≈ Rp650*)</td><td data-ja>トークン 112–8,888：0.00005 BNB（約 Rp650*）</td></tr>
+      <tr><td data-en>Max per wallet</td><td data-ja>1ウォレット上限</td><td data-en>11 (template, to confirm)</td><td data-ja>11（テンプレート、要確認）</td></tr>
+      <tr><td data-en>Sellout total</td><td data-ja>完売時合計</td><td>0.43885 BNB</td></tr>
+      <tr><td data-en>Chain</td><td data-ja>チェーン</td><td>BNB Chain Mainnet (56)</td></tr>
+      <tr><td data-en>Contract</td><td data-ja>コントラクト</td><td data-en>Not deployed yet</td><td data-ja>まだデプロイされていません</td></tr>
+    </table>
+    <p class="note" data-en>Sequential mint, like the previous projects: token IDs are minted in order, so the 111 FREE tokens are all Wink.</p>
+    <p class="note" data-ja>これまでのプロジェクトと同じ順次ミントです。無料の111体はすべてWinkになります。</p>
+  </div>
+
+  <div class="card">
+    <h2 data-en>Mint</h2>
+    <h2 data-ja>ミント</h2>
+    <button class="mintbtn" disabled data-en>Mint is disabled in this preview</button>
+    <button class="mintbtn" disabled data-ja>このプレビューではミントは無効です</button>
+    <p class="note" data-en>Connect Wallet &amp; Mint will be enabled here once the contract is deployed and the owner confirms the mint is open.</p>
+    <p class="note" data-ja>コントラクトのデプロイとミント開始の確認後、ここでウォレット接続とミントが有効になります。</p>
+  </div>
+
+  <div class="card">
+    <h2 data-en>Agent Mint (copy-paste prompt)</h2>
+    <h2 data-ja>エージェントミント（コピペ用プロンプト）</h2>
+    <p data-en>For minting with an AI agent once the contract is live. The contract address is still TBD — the agent must stop if it is still TBD.</p>
+    <p data-ja>コントラクト公開後にAIエージェントでミントするためのプロンプトです。アドレスはまだ未定（TBD）です。未定のままならエージェントは停止しなければなりません。</p>
+    <div class="prompt" id="agentPrompt">You are minting a NOVIO NFT on BNB Chain Mainnet (chain ID 56) for me.
+Contract address: TBD — if the address is still TBD, STOP and tell me the contract is not deployed yet. Do not guess an address.
+1. First call mintOpen(), totalMinted(), currentPrice(), and mintedPerWallet(MY_WALLET) and report the exact phase, price, and how many I already minted.
+2. STOP if mint is closed or my wallet already reached the max of 11.
+3. Only after my confirmation, call mint(QUANTITY) and send exactly currentPrice x QUANTITY in BNB. No token approvals.
+4. Report the transaction hash and the new token IDs.</div>
+    <p style="text-align:center;margin:12px 0 0"><button class="copybtn" onclick="copyPrompt()" data-en>Copy Prompt</button><button class="copybtn" onclick="copyPrompt()" data-ja>プロンプトをコピー</button></p>
+  </div>
+
+  <p class="foot">NOVIO — preview page. Contract: TBD · Mint: not open<br>
+  <span data-en>BNB Chain · BEP-721 · Sequential IDs · No financial return promised</span>
+  <span data-ja>BNBチェーン · BEP-721 · 順次ID · 金銭的リターンの約束はありません</span></p>
+</div>
+<script>
+function setLang(l){
+  document.body.classList.toggle('ja', l==='ja');
+  document.getElementById('btn-en').classList.toggle('on', l==='en');
+  document.getElementById('btn-ja').classList.toggle('on', l==='ja');
+}
+function copyPrompt(){
+  var t=document.getElementById('agentPrompt').innerText;
+  if(navigator.clipboard){navigator.clipboard.writeText(t);}
+}
+</script>
+</body>
+</html>
